@@ -1,3 +1,7 @@
+# Author: Kishamo Smith
+# Baby's first python course .. ... .......
+# Prints the john wick bad ending
+
 if __name__ == "__main__":
 
     print("Once upon a time, there was a capo named Jimothy.");
