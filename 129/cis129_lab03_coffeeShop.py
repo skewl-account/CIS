@@ -33,7 +33,6 @@ FINISHED_KEYWORDS = ["done", "that"]
 # i.e. on some system 'clear' exceutes 'clear' 
 # and a fetcher program like 'neofetch'
 # than just 'clear'
-
 def clear():
     if os.name == "nt":
         os.system("cls");
@@ -45,6 +44,8 @@ def introduce():
     print("Welcome to the Coffee Shop.");
     print("What would you like?");
 
+# calculates the "cumulative price"
+# of all items in the cart.
 def calculateCumulativePrice():
     out = 0;
     for item in ORDERED_ITEMS.keys():
@@ -53,9 +54,13 @@ def calculateCumulativePrice():
 
     return out + calculateTax(out);
 
+# filters out things that aren't to be included
+# never turned out to be necessary in the end.
+# why did i implement this?
 def generateFilterList(sequence, searchQuery = None):
     return filter(lambda ligma: (not searchQuery) or (ligma == searchQuery), sequence.keys())
 
+# adds several strings to a list
 def generateReceipt(of, receiptLengthChars = 40):
     stars = "*" * receiptLengthChars
     out = [stars];
@@ -82,6 +87,8 @@ def generateReceipt(of, receiptLengthChars = 40):
     out.append(stars);
     return out;
 
+# transformer, just number-ifies things.
+# not foolproof. i think.
 def numericTransformer(maybeNumber, default):
     maybeNumber = default if maybeNumber == "" or maybeNumber == None else maybeNumber;
 
@@ -93,13 +100,21 @@ def numericTransformer(maybeNumber, default):
 
         return maybeNumber;
 
+# my mortal enemy
 def calculateTax(number):
     return 0.06 * number;
 
+# runs a transformer function which can
+# change the result if necessary.
+# 'nuff said.
 def prompt(text, transformer = lambda x: x):
     print(text)
     return transformer(input());
 
+# returns a "s" if the value provided is >1
+# helps to follow english rules, meant
+# to be added via string interpolation
+# rather than used directly
 def pluralize(count): 
     return "s" if count > 1 else ""
 
@@ -130,7 +145,7 @@ def execute_minigame():
             ORDERED_ITEMS[userInput] = cumulativeItemPrice if (userInput in ORDERED_ITEMS) else cumulativeItemPrice;
             print(f"Got it; that's {itemCount} {userInput}{pluralize(itemCount)}.");
             time.sleep(0.125);
-            print("Anything else?");
+            print("Anything else? (say 'done' to finish)");
 
         else:
             if (userInput.strip() == ""):
@@ -143,6 +158,9 @@ def execute_minigame():
 
             time.sleep(1);
 
+    # goes through all lines generateed
+    # by "generateReceipt" and prints them
+    # out entirely
     print("Here your receipt:");
     for line in generateReceipt(ORDERED_ITEMS):
         
@@ -150,7 +168,9 @@ def execute_minigame():
 
     print("Thank you for your patronage! See you next time!");
 
+# only runs the minigame 
+# if it's not imported as 
+# a module
 if (__name__ == "__main__"):
 
     execute_minigame();
-
